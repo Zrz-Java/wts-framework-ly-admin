@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.mapping.ActionMapper">
+  <resultMap id="actionMap" type="com.base.empty.Action">
+    <id column="ACID" jdbcType="INTEGER" property="acId" />
+    <result column="ACNAME" jdbcType="VARCHAR" property="acName" />
+    <result column="ACDESC" jdbcType="VARCHAR" property="acDesc" />
+    <result column="ACORDER" jdbcType="INTEGER" property="acOrder" />
+    <result column="ICONCLS" jdbcType="VARCHAR" property="iconCls" />
+    <result column="ATTRIBUTE" jdbcType="VARCHAR" property="attribute" />
+    <result column="PARENTID" jdbcType="INTEGER" property="parentId" />
+    <result column="CONTENTLISTPAGE" jdbcType="VARCHAR" property="contentlistpage" />
+    <result column="CONTENTSHOWPAGE" jdbcType="VARCHAR" property="contentshowpage" />
+    <result column="CONTENTADDEDITPAGE" jdbcType="VARCHAR" property="contentaddeditpage" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="crUser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crTime" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="ACTYPE" jdbcType="INTEGER" property="actype" />
+    <result column="ISLEAF" jdbcType="INTEGER" property="isleaf" />
+  </resultMap>
+  	<select id="findByAcId" parameterType="Integer" resultMap="actionMap">
+         select * from we_action where ACID = #{acId}
+   </select>
+  	<select id="queryByParentId" parameterType="Integer" resultMap="actionMap">
+         select * from we_action where PARENTID = #{parentId} AND STATUS = 1 order by ACORDER DESC 
+         <if test="pageSize != 0 and firstIndex != 0">  LIMIT #{firstIndex},#{pageSize}</if>
+   </select>
+   <select id="countByParentId" parameterType="Integer" resultType="integer">
+         select count(*) from we_action where PARENTID = #{parentId} AND STATUS = 1
+   </select>
+ 
+</mapper>

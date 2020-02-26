@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.mapping.UserMapper">
+  <resultMap id="userResultMap" type="com.base.empty.User">
+    <id column="USERID" jdbcType="VARCHAR" property="userId" />
+    <result column="USERNAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PASSWORD" jdbcType="VARCHAR" property="passWord" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="AGE" jdbcType="INTEGER" property="age" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="SEX" jdbcType="VARCHAR" property="sex" />
+    <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="SIGN" jdbcType="VARCHAR" property="sign" />
+    <result column="HEADURL" jdbcType="VARCHAR" property="headUrl" />
+    <result column="IDCARD" jdbcType="VARCHAR" property="idCard" />
+     <result column="CRTIME" jdbcType="TIMESTAMP" property="crTime" />
+     <result column="UPDATETIME" jdbcType="TIMESTAMP" property="updateTime" />
+     <result column="LOGOUTTIME" jdbcType="TIMESTAMP" property="logoutTime" />
+  </resultMap>
+  	<select id="findByUserId" parameterType="String" resultMap="userResultMap">
+         select * from we_user where userId = #{userId}
+   </select>
+   
+  	<select id="loginUser" parameterType="String" resultMap="userResultMap">
+         select * from we_user where (userName = #{userName} or mobile = #{userName}) and passWord = #{passWord}
+   </select>
+   
+   	<select id="queryListByUser" resultMap="userResultMap">
+         select * from we_user where 1 = 1 
+         <if test="keys != null">
+        	 where userName like '%#{keys}%' or mobile = like '%#{keys}%'
+         </if>
+         order by USERID DESC  <if test="pageSize != -1 ">LIMIT #{firstIndex},#{pageSize}</if>
+   </select>
+   <select id="countUser"  parameterType="String" resultType="integer">
+         select count(*) from we_user 
+         <if test="keys != null">
+        	 where userName like '%#{keys}%' or mobile = like '%#{keys}%'
+         </if>
+   </select>
+   
+   <insert id="saveUser" parameterType="com.base.empty.User" >
+        insert into we_user(USERID,NAME,AGE,SEX,USERNAME,PASSWORD,MOBILE,EMAIL,ADDRESS,STATUS,IDCARD,CRTIME) values(UUID(),#{name},#{age},#{sex},#{userName},#{password},#{mobile},#{email},#{address},#{status},#{idCard},now())
+    </insert>
+</mapper>

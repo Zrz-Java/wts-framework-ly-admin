@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.mapping.UserMapper">
+  <resultMap id="roleUserResultMap" type="com.base.empty.RoleUser">
+    <id column="ROLEUSERID" jdbcType="VARCHAR" property="roleUserId" />
+    <result column="ROLEID" jdbcType="INTEGER" property="roleId" />
+    <result column="USERID" jdbcType="INTEGER" property="userId" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="crUser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crTime" />
+  </resultMap>
+ 
+   
+ 
+</mapper>

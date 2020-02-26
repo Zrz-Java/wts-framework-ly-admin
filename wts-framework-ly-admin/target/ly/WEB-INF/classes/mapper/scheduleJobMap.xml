@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.mapping.ScheduleJobMapper">
+  <resultMap id="scheduleJobMap" type="com.base.empty.ScheduleJob">
+    <id column="SCHID" jdbcType="VARCHAR" property="schId" />
+    <result column="SCHNAME" jdbcType="VARCHAR" property="schName" />
+    <result column="SCHDESC" jdbcType="VARCHAR" property="schDesc" />
+    <result column="OPERID" jdbcType="VARCHAR" property="operId" />
+    <result column="SCHMODE" jdbcType="VARCHAR" property="schMode" />
+    <result column="EXECRON" jdbcType="VARCHAR" property="execron" />
+    <result column="PARAM" jdbcType="VARCHAR" property="param" />
+    <result column="ATTRIBUTE" jdbcType="VARCHAR" property="attribute" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="crUser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crTime" />
+    <result column="LASTEXETIME" jdbcType="TIMESTAMP" property="lastExeTime" />
+    <result column="LASTEXERES" jdbcType="INTEGER" property="lastExeres" />
+    <result column="LASTTIMEUSED" jdbcType="VARCHAR" property="lastTimeUsed" />
+    <result column="SCHSTATUS" jdbcType="INTEGER" property="schStatus" />
+    <result column="OBJTYPE" jdbcType="INTEGER" property="objType" />
+    <result column="OBJID" jdbcType="VARCHAR" property="objId" />
+    <result column="SITEID" jdbcType="VARCHAR" property="siteId" />
+  </resultMap>
+  	<select id="findBySchId" parameterType="String" resultMap="scheduleJobMap">
+         select * from we_schedulejob where schId = #{schId}
+   </select>
+   
+  	<select id="findByOperId" parameterType="String" resultMap="scheduleJobMap">
+         select * from we_schedulejob where operId  = #{schId}
+   </select>
+   
+  	<select id="queryScheduleJob" parameterType="Integer" resultMap="scheduleJobMap">
+         select * from we_schedulejob where SCHSTATUS  = 1  order by CRTIME DESC LIMIT #{firstIndex},#{pageSize} 
+   </select>
+   
+  	<select id="countScheduleJob" resultType="integer">
+         select count(*) from we_schedulejob where SCHSTATUS  = 1 
+   </select>
+   
+ 
+</mapper>

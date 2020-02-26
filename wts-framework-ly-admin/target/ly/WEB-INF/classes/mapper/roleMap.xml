@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.mapping.UserMapper">
+  <resultMap id="roleResultMap" type="com.base.empty.Role">
+    <id column="ROLEID" jdbcType="VARCHAR" property="roleId" />
+    <result column="roleName" jdbcType="VARCHAR" property="roleName" />
+    <result column="ROLEDESC" jdbcType="VARCHAR" property="roleDesc" />
+    <result column="ATTRIBUTE" jdbcType="VARCHAR" property="sysDefined" />
+    <result column="SYSDEFINED" jdbcType="INTEGER" property="sysDefined" />
+    <result column="VIEWABLE" jdbcType="INTEGER" property="viewAble" />
+    <result column="REMOVEABLE" jdbcType="INTEGER" property="removeAble" />
+    <result column="CRUSER" jdbcType="VARCHAR" property="crUser" />
+    <result column="CRTIME" jdbcType="TIMESTAMP" property="crTime" />
+  </resultMap>
+ 
+   
+ 
+</mapper>

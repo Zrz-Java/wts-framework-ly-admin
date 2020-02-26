@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+		<!-- 
+		org.quartz.jobStore.class属性为JobStoreTX，将任务持久化到数据中。因为集群中节点依赖于数据库来传播Scheduler实例的状态，你只能在使用JDBC JobStore时应用Quartz集群。
+		org.quartz.jobStore.isClustered属性为true，通知Scheduler实例要它参与到一个集群当中。
+		org.quartz.jobStore.clusterCheckinInterval属性定义了Scheduler实例检入到数据库中的频率(单位：毫秒)。Scheduler检查是否其他的实例到了它们应当检入的时候未检入；这能指出一个失败的Scheduler实例，且当前 Scheduler会以此来接管任何执行失败并可恢复的Job。通过检入操作，Scheduler 也会更新自身的状态记录。clusterChedkinInterval越小，Scheduler节点检查失败的Scheduler实例就越频繁。默认值是 15000 (即15 秒)。
+		 -->
+		<!-- 调度工厂 -->
+		
+		
+		<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" autowire="no">
+			<property name="dataSource" ref="dataSource" />
+			<property name="quartzProperties">
+				<props>
+					<prop key="org.quartz.scheduler.instanceName">TRTscheduler</prop>
+					<prop key="org.quartz.scheduler.instanceId">AUTO</prop>
+					<!-- 线程池配置 -->
+					<prop key="org.quartz.threadPool.class">org.quartz.simpl.SimpleThreadPool</prop>
+					<prop key="org.quartz.threadPool.threadCount">50</prop>
+					<prop key="org.quartz.threadPool.threadPriority">5</prop>
+					<!-- JobStore 配置 -->
+					<prop key="org.quartz.jobStore.class">org.quartz.impl.jdbcjobstore.JobStoreTX</prop>
+
+					<!-- 集群配置 -->
+					<prop key="org.quartz.jobStore.isClustered">true</prop>
+					<prop key="org.quartz.jobStore.clusterCheckinInterval">15000</prop>
+					<prop key="org.quartz.jobStore.maxMisfiresToHandleAtATime">1</prop>
+
+					<prop key="org.quartz.jobStore.misfireThreshold">120000</prop>
+
+					<prop key="org.quartz.jobStore.tablePrefix">QRTZ_</prop>
+				</props>
+
+			</property>
+
+			<property name="schedulerName" value="TRTscheduler" />
+
+			<!--必须的，QuartzScheduler 延时启动，应用启动完后 QuartzScheduler 再启动 -->
+			<property name="startupDelay" value="30" />
+
+			<property name="applicationContextSchedulerContextKey" value="applicationContextKey" />
+
+			<!--可选，QuartzScheduler 启动时更新己存在的Job，这样就不用每次修改targetObject后删除qrtz_job_details表对应记录了 -->
+			<property name="overwriteExistingJobs" value="true" />
+
+			<!-- 设置自动启动 -->
+			<property name="autoStartup" value="true" />
+
+		</bean>
+		
+		<bean id="scheduleManager" class="com.base.quartz.ScheduleManager" init-method="initSchedule"></bean>
+
+	</beans>
