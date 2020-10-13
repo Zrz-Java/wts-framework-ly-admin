@@ -28,7 +28,7 @@
         <!--spring-boot-parent版本号，通过spring-boot管理其他第三方依赖版本-->
         <spring.boot.version>1.5.6.RELEASE</spring.boot.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <junit.version>4.11</junit.version>
+        <junit.version>4.13.1</junit.version>
         <bouncycastle.version>1.46</bouncycastle.version>
         <log4j.version>1.2.17</log4j.version>
         <slf4j.version>1.7.7</slf4j.version>
